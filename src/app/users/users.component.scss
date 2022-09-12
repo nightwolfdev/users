@@ -1,0 +1,15 @@
+h1, h3, h4 {
+  margin-top: 0;
+}
+
+#addUserBtn {
+  margin-right: 0;
+}
+
+#usersFilterForm {
+  @media screen and (min-width: 992px) {
+    .clr-form-control {
+      margin-top: 0;
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<h1>View User</h1>
+
+<ng-container *ngIf="user$ | async as user; else: loading">
+  <div class="card">
+    <div class="card-block">
+      <div class="clr-row">
+        <div class="clr-col-sm-12 clr-col-md-auto">
+          <img [src]="'https://api.multiavatar.com/' + user.firstName + user.lastName + '.png'" [alt]="user.firstName + ' ' + user.lastName" class="user-image">
+        </div>
+        <div class="clr-col-sm-12 clr-col-md-auto">
+          <h1>{{ user.firstName | titlecase }} {{ user.lastName | titlecase }}</h1>
+          <h2>{{ user.title | titlecase }}</h2>
+          <h3 class="user-division">{{ user.division | titlecase }}</h3>
+          <h3><a [href]="'mailto:' + user.email">{{ user.email }}</a></h3>
+          <h3><a [href]="'tel:' + user.phone">{{ user.phone }}</a></h3>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <button type="button" class="btn btn-primary" (click)="editUser(user.id!)">Edit</button>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loading>
+  <div class="text-center">
+    <span class="spinner">Loading...</span>
+  </div>
+</ng-template>
+
+<clr-alert [clrAlertClosable]="false" clrAlertType="danger" *ngIf="errorLoadingMsg">
+  <clr-alert-item>
+    <span class="alert-text">{{ errorLoadingMsg }}</span>
+  </clr-alert-item>
+</clr-alert>

@@ -1,0 +1,87 @@
+<h1>{{ userId ? 'Edit' : 'Add' }} User</h1>
+
+<div class="card">
+  <div class="card-block">
+    <form clrForm [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+      <clr-input-container>
+        <label for="firstName">First Name</label>
+        <input clrInput type="text" id="firstName" name="firstName" formControlName="firstName" appAutofocus>
+        <clr-control-error>Please provide a first name.</clr-control-error>
+      </clr-input-container>
+    
+      <clr-input-container>
+        <label for="lastName">Last Name</label>
+        <input clrInput type="text" id="lastName" name="lastName" formControlName="lastName">
+        <clr-control-error>Please provide a last name.</clr-control-error>
+      </clr-input-container>
+    
+      <ng-container *ngIf="titles$ | async as titles">
+        <clr-select-container>
+          <label for="title">Title</label>
+          <select clrSelect id="title" name="title" formControlName="titleId">
+            <option value="0">Select Title</option>
+            <option *ngFor="let title of titles" [value]="title.id">{{ title.name }}</option>
+          </select>
+          <clr-control-helper *ngIf="titles.length === 0">No titles have been added yet. <a routerLink="/titles/new">Add Title</a></clr-control-helper>
+          <clr-control-error *ngIf="titles.length > 0">Please provide a title.</clr-control-error>
+        </clr-select-container>
+      </ng-container>
+    
+      <ng-container *ngIf="divisions$ | async as divisions">
+      <clr-select-container>
+        <label for="division">Division</label>
+        <select clrSelect id="division" name="division" formControlName="divisionId">
+          <option value="0">Select Division</option>
+          <option *ngFor="let division of divisions" [value]="division.id">{{ division.name }}</option>
+        </select>
+        <clr-control-helper *ngIf="divisions.length === 0">No divisions have been added yet. <a routerLink="/divisions/new">Add Division</a></clr-control-helper>
+        <clr-control-error *ngIf="divisions.length > 0">Please provide a division.</clr-control-error>
+      </clr-select-container>
+      </ng-container>
+    
+      <clr-input-container>
+        <label for="email">Email</label>
+        <input clrInput type="text" id="email" name="email" formControlName="email">
+        <clr-control-error>Please provide an email.</clr-control-error>
+      </clr-input-container>
+    
+      <clr-input-container>
+        <label for="phone">Phone</label>
+        <input clrInput type="text" id="phone" name="phone" formControlName="phone">
+        <clr-control-error>Please provide a 10 digit phone number.</clr-control-error>
+      </clr-input-container>
+    
+      <p>
+        <clr-alert [clrAlertClosable]="false" clrAlertType="danger" *ngIf="errorLoadingMsg">
+          <clr-alert-item>
+            <span class="alert-text">{{ errorLoadingMsg }}</span>
+          </clr-alert-item>
+        </clr-alert>
+      </p>
+    
+      <p>
+        <button type="submit" class="btn btn-primary" [clrLoading]="submitBtnState" [disabled]="!form.valid">Submit</button>
+        <button type="button" class="btn btn-danger" (click)="confirmRemoval()" *ngIf="userId">Remove</button>
+      </p>
+    </form>
+  </div>
+</div>
+
+<clr-modal [(clrModalOpen)]="modalOpen" [clrModalClosable]="false">
+  <h3 class="modal-title">Remove User?</h3>
+  <div class="modal-body">
+    <p>Are you sure you want to remove {{ form.get('firstName')?.value }} {{ form.get('lastName')?.value }}?</p>
+
+    <p *ngIf="errorRemovingMsg">
+      <clr-alert [clrAlertClosable]="false" clrAlertType="danger">
+        <clr-alert-item>
+          <span class="alert-text">{{ errorRemovingMsg }}</span>
+        </clr-alert-item>
+      </clr-alert>
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="modalOpen = false">No, Cancel</button>
+    <button type="button" class="btn btn-danger" [clrLoading]="removeBtnState" (click)="onRemove()">Yes, Remove</button>
+  </div>
+</clr-modal>

@@ -1,0 +1,43 @@
+<div class="clr-row">
+  <div class="clr-col-6">
+    <h1>Titles</h1>
+  </div>
+  <div class="clr-col-6 text-right">
+    <button id="addTitleBtn" class="btn btn-primary" (click)="addTitle()">Add Title</button>
+  </div>
+</div>
+
+<ng-container *ngIf="titles$ | async as titles; else: loading">
+  <clr-datagrid>
+    <clr-dg-column [clrDgField]="'name'">Name</clr-dg-column>
+    <clr-dg-column>Active</clr-dg-column>
+
+    <clr-dg-placeholder>No titles have been added yet. <a routerLink="/titles/new">Add Title</a></clr-dg-placeholder>
+
+    <clr-dg-row *clrDgItems="let title of titles">
+      <clr-dg-cell><a [routerLink]="['/titles', title.id, 'edit']">{{ title.name | titlecase }}</a></clr-dg-cell>
+      <clr-dg-cell>{{ title.active ? 'Yes' : 'No' }}</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+          <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Titles per page</clr-dg-page-size>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} titles
+      </clr-dg-pagination>
+  </clr-dg-footer>
+  </clr-datagrid>
+</ng-container>
+<ng-template #loading>
+  <div class="text-center">
+    <span class="spinner">
+      Loading...
+    </span>
+  </div>
+</ng-template>
+
+<clr-alert [clrAlertClosable]="false" clrAlertType="danger" *ngIf="errorLoadingMsg">
+  <clr-alert-item>
+    <span class="alert-text">{{ errorLoadingMsg }}</span>
+  </clr-alert-item>
+</clr-alert>

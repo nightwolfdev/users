@@ -1,0 +1,123 @@
+<div class="clr-row clr-align-items-end">
+  <div class="clr-col-sm-12 clr-col-lg-2">
+    <h1>Users</h1>
+  </div>
+  <div class="clr-col-sm-12 clr-col-lg-8">
+    <form clrForm [formGroup]="form" id="usersFilterForm" autocomplete="off">
+      <div class="clr-row clr-justify-content-end">
+        <div class="clr-col-sm-12 clr-col-lg-auto">
+          <clr-input-container>
+            <label for="name" style="display: none">Name</label>
+            <input clrInput type="text" id="name" name="name" formControlName="name" placeholder="Filter By Name" (keyup)="onFilter()">
+          </clr-input-container>
+        </div>
+        <div class="clr-col-sm-12 clr-col-lg-auto">
+          <ng-container *ngIf="titles$ | async as titles">
+            <clr-select-container>
+              <label for="title" style="display: none">Title</label>
+              <select clrSelect id="title" name="title" formControlName="titleId" (change)="onFilter()">
+                <option value="0">All Titles</option>
+                <option *ngFor="let title of titles" [value]="title.id">{{ title.name | titlecase }}</option>
+              </select>
+              <clr-control-helper *ngIf="titles.length === 0">No titles have been added yet. <a routerLink="/titles/new">Add Title</a></clr-control-helper>
+            </clr-select-container>
+          </ng-container>
+        </div>
+        <div class="clr-col-sm-12 clr-col-lg-auto">
+          <ng-container *ngIf="divisions$ | async as divisions">
+            <clr-select-container>
+              <label for="division" style="display: none">Division</label>
+              <select clrSelect id="division" name="division" formControlName="divisionId" (change)="onFilter()">
+                <option value="0">All Divisions</option>
+                <option *ngFor="let division of divisions" [value]="division.id">{{ division.name | titlecase }}</option>
+              </select>
+              <clr-control-helper *ngIf="divisions.length === 0">No divisions have been added yet. <a routerLink="/divisions/new">Add Division</a></clr-control-helper>
+            </clr-select-container>
+            </ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="clr-col-sm-12 clr-col-lg-2 text-right">
+    <button id="addUserBtn" class="btn btn-primary" (click)="addUser()">Add User</button>
+  </div>
+</div>
+
+<div class="clr-row">
+  <div class="clr-col">
+    <!-- <div class="card">
+      <div class="card-block">
+        <form clrForm [formGroup]="form" id="usersFilterForm" autocomplete="off">
+          <div class="clr-row">
+            <div class="clr-col-sm-12 clr-col-lg-auto">
+              <clr-input-container>
+                <label for="name" style="display: none">Name</label>
+                <input clrInput type="text" id="name" name="name" formControlName="name" placeholder="Filter By Name" (keyup)="onFilter()">
+              </clr-input-container>
+            </div>
+            <div class="clr-col-sm-12 clr-col-lg-auto">
+              <ng-container *ngIf="titles$ | async as titles">
+                <clr-select-container>
+                  <label for="title" style="display: none">Title</label>
+                  <select clrSelect id="title" name="title" formControlName="titleId" (change)="onFilter()">
+                    <option value="0">All Titles</option>
+                    <option *ngFor="let title of titles" [value]="title.id">{{ title.name | titlecase }}</option>
+                  </select>
+                  <clr-control-helper *ngIf="titles.length === 0">No titles have been added yet. <a routerLink="/titles/new">Add Title</a></clr-control-helper>
+                </clr-select-container>
+              </ng-container>
+            </div>
+            <div class="clr-col-sm-12 clr-col-lg-auto">
+              <ng-container *ngIf="divisions$ | async as divisions">
+                <clr-select-container>
+                  <label for="division" style="display: none">Division</label>
+                  <select clrSelect id="division" name="division" formControlName="divisionId" (change)="onFilter()">
+                    <option value="0">All Divisions</option>
+                    <option *ngFor="let division of divisions" [value]="division.id">{{ division.name | titlecase }}</option>
+                  </select>
+                  <clr-control-helper *ngIf="divisions.length === 0">No divisions have been added yet. <a routerLink="/divisions/new">Add Division</a></clr-control-helper>
+                </clr-select-container>
+                </ng-container>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<ng-container *ngIf="users$ | async as users; else: loading">
+  <div class="clr-row">
+    <div class="clr-col" *ngIf="!errorLoadingMsg && users.length === 0">
+      <h4 class="text-center" style="margin-top: 2rem">No users found.</h4>
+    </div>
+
+    <div class="clr-col-sm-12 clr-col-md-6 clr-col-lg-4" *ngFor="let user of users">
+      <div class="card">
+        <div class="card-block">
+          <div class="card-media-block">
+            <img [src]="'https://api.multiavatar.com/' + user.firstName + user.lastName + '.png'" [alt]="user.firstName + ' ' + user.lastName" class="card-media-image">
+            <div class="card-media-description">
+              <h3 class="card-media-title">
+                <a [routerLink]="['/users', user.id, 'view']">{{ user.firstName | titlecase }} {{ user.lastName | titlecase }}</a>
+              </h3>
+              <h4 class="card-media-text">{{ user.title | titlecase }}</h4>
+              <h4 class="card-media-text">{{ user.division | titlecase }}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<ng-template #loading>
+  <div class="text-center">
+    <span class="spinner">Loading...</span>
+  </div>
+</ng-template>
+
+<clr-alert [clrAlertClosable]="false" clrAlertType="danger" *ngIf="errorLoadingMsg">
+  <clr-alert-item>
+    <span class="alert-text">{{ errorLoadingMsg }}</span>
+  </clr-alert-item>
+</clr-alert>

@@ -1,0 +1,33 @@
+<h1>{{ divisionId ? 'Edit' : 'Add' }} Division</h1>
+
+<div class="card">
+  <div class="card-block">
+    <form clrForm [formGroup]="form" (ngSubmit)="onSubmit()" autocomplete="off">
+      <clr-input-container>
+        <label for="name">Name</label>
+        <input clrInput type="text" id="name" name="name" formControlName="name" appAutofocus>
+        <clr-control-error>Please provide a name.</clr-control-error>
+      </clr-input-container>
+    
+      <clr-select-container>
+        <label for="active">Active</label>
+        <select clrSelect id="active" name="active" formControlName="active">
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </clr-select-container>
+    
+      <p>
+        <clr-alert [clrAlertClosable]="false" clrAlertType="danger" *ngIf="errorMsg">
+          <clr-alert-item>
+            <span class="alert-text">{{ errorMsg }}</span>
+          </clr-alert-item>
+        </clr-alert>
+      </p>
+    
+      <p>
+        <button type="submit" class="btn btn-primary" [clrLoading]="submitBtnState" [disabled]="!form.valid">Submit</button>
+      </p>
+    </form>
+  </div>
+</div>
