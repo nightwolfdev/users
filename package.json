@@ -2,7 +2,7 @@
   "name": "users",
   "version": "0.0.0",
   "description": "Angular App with Express API Server and SQLite Database.",
-  "keywords": ["angular", "api", "express", "rxjs", "sqlite", "typescript"],
+  "keywords": ["angular", "api", "express", "nodejs", "rxjs", "sqlite", "typescript"],
   "homepage": "https://github.com/nightwolfdev/users",
   "author": {
     "name": "NightWolf Software Development",
