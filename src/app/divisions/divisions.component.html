@@ -14,7 +14,7 @@
 
     <clr-dg-placeholder>No divisions have been added yet. <a routerLink="/divisions/new">Add Division</a></clr-dg-placeholder>
 
-    <clr-dg-row *clrDgItems="let division of divisions">
+    <clr-dg-row *clrDgItems="let division of divisions; trackBy: trackByDivisionId">
       <clr-dg-cell><a [routerLink]="['/divisions', division.id, 'edit']">{{ division.name | titlecase }}</a></clr-dg-cell>
       <clr-dg-cell>{{ division.active ? 'Yes' : 'No' }}</clr-dg-cell>
     </clr-dg-row>

@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { Division, DivisionsService } from '../shared/services/divisions.service';
 import { Title, TitlesService } from '../shared/services/titles.service';
-import { UserData, UserFilterForm, UsersService } from '../shared/services/users.service';
+import { User, UserData, UserFilterForm, UsersService } from '../shared/services/users.service';
 
 @Component({
   selector: 'app-users',
@@ -76,5 +76,9 @@ export class UsersComponent implements OnInit {
     };
 
     this.usersSvc.changeFilter(filterCriteria);
+  }
+
+  trackByUserId(index: number, user: User): number {
+    return user.id!;
   }
 }

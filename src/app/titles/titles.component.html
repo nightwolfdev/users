@@ -14,7 +14,7 @@
 
     <clr-dg-placeholder>No titles have been added yet. <a routerLink="/titles/new">Add Title</a></clr-dg-placeholder>
 
-    <clr-dg-row *clrDgItems="let title of titles">
+    <clr-dg-row *clrDgItems="let title of titles; trackBy: trackByTitleId">
       <clr-dg-cell><a [routerLink]="['/titles', title.id, 'edit']">{{ title.name | titlecase }}</a></clr-dg-cell>
       <clr-dg-cell>{{ title.active ? 'Yes' : 'No' }}</clr-dg-cell>
     </clr-dg-row>

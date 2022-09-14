@@ -34,4 +34,8 @@ export class TitlesComponent implements OnInit {
   addTitle(): void {
     this.router.navigateByUrl('/titles/new');
   }
+
+  trackByTitleId(index: number, title: Title): number {
+    return title.id!;
+  }
 }

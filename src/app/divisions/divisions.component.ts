@@ -34,4 +34,8 @@ export class DivisionsComponent implements OnInit {
   addDivision(): void {
     this.router.navigateByUrl('/divisions/new');
   }
+
+  trackByDivisionId(index: number, division: Division): number {
+    return division.id!;
+  }
 }
