@@ -2,7 +2,7 @@
 
 ![Users App](./src/assets/img/users-app.png)
 
-Angular App with Express API Server and SQLite Database.
+Add, edit, and remove users, divisions, and titles.
 
 ## Getting Started
 
@@ -66,6 +66,7 @@ If you want to delete existing data, delete the `data.db` file. You can start ov
 ## Links
 
 * [Angular](https://angular.io)
+* [Clarity Design System](https://clarity.design/)
 * [Express](https://expressjs.com)
 * [Multiavatar](https://multiavatar.com/)
 * [RxJS](https://rxjs.dev)
